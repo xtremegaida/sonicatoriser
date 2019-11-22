@@ -1,5 +1,5 @@
 import { useState } from "react";
-import globalContext from "./global-context";
+import globalContext from "../global-context";
 
 export const useGlobalState = (uid: string, key: string, defaultValue?: any) => {
   key = (uid || '$') + '.' + key;

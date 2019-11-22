@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import 'golden-layout/lib/jquery';
 import GoldenLayout from 'golden-layout';
-import { registerLayoutReactShim } from '../layout-components';
+import { registerLayoutReactShim } from '../layout/layout-components';
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-light-theme.css';
 

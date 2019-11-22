@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GoldenLayout from 'golden-layout';
+import { LayoutComponentPropsBase } from '../types';
 
-import { AppTest } from "./components/app";
+import { LayoutProjectOutlineComponent } from './project-outline';
+import { TrackViewComponent } from './track-view';
 
 var layoutUid = 0;
 
@@ -10,7 +12,8 @@ export const getLayoutUid = () => layoutUid;
 export const setLayoutUid = (uid: number) => layoutUid = uid;
 
 export const layoutComponents = {
-  'AppTest': AppTest
+  'outline': LayoutProjectOutlineComponent,
+  'trackView': TrackViewComponent,
 };
 
 export const createLayoutComponent = (title: string, component: any, props?: any, isCloseable?: boolean) => ({
@@ -20,7 +23,7 @@ export const createLayoutComponent = (title: string, component: any, props?: any
   componentName: 'reactshim',
   componentState: {
     component: component,
-    props: { ...props, uid: component + '[' + (layoutUid++) + ']' }
+    props: { ...props, uid: component + '[' + (layoutUid++) + ']' } as LayoutComponentPropsBase
   }
 });
 
@@ -35,12 +38,12 @@ export const defaultLayout = {
       id: 'mainContainer',
       width: 75,
       isClosable: false,
-      content:[createLayoutComponent('A', 'AppTest', null, false)]
+      content:[]
     }, {
       type: 'stack',
       id: 'toolboxContainer',
       isClosable: false,
-      content:[createLayoutComponent('B', 'AppTest'), createLayoutComponent('C', 'AppTest')]
+      content:[createLayoutComponent('Project Outline', 'outline', null, false)]
     }]
   }]
 };

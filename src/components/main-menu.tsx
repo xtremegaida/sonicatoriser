@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { MenuButton } from './components/menu-button';
+import { MenuButton } from './menu-button';
 import CreateIcon from '@material-ui/icons/Create';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import SaveIcon from '@material-ui/icons/SaveAltRounded';
-import globalContext from './global-context';
+import globalContext from '../global-context';
 
 const useStyles = makeStyles(theme => ({
   spacing: {
@@ -23,6 +23,7 @@ export function MainMenu () {
         Sonicatoriser
       </Typography>
       <MenuButton name="File" items={[
+        //TODO: add confirm dialog
         { name: <span><CreateIcon className={classes.spacing} /> New</span>, onClick: () => globalContext.fileNew() },
         { divider: true },
         { name: <span><FolderOpenIcon className={classes.spacing} /> Quick Load</span>, onClick: () => globalContext.fileQuickLoad() },

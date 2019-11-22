@@ -1,40 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { MainMenu } from './main-menu';
+import { MainLayoutComponent } from './main-layout';
+import globalContext from '../global-context';
+import { layoutComponents, defaultLayout } from '../layout/layout-components';
 
-import { TreeView, TreeItem } from '@material-ui/lab';
-import { styled } from '@material-ui/core/styles';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { useGlobalState } from '../global-context-state';
+const containerStyle: any = {
+  position: 'fixed',
+  top: '0',
+  left: '0',
+  right: '0',
+  bottom: '0'
+};
 
-const StyledTreeView = styled(TreeView)({
-  root: {
-    height: 216,
-    flexGrow: 1,
-    maxWidth: 400,
-  },
-});
+const dockStyle: any = {
+  position: 'absolute',
+  top: '64px',
+  bottom: '0',
+  width: '100%',
+  overflow: 'hidden',
+  zIndex: -1
+};
 
-export function AppTest (props: any) {
-  const [count, setCount] = useGlobalState(props.uid, 'count', 0);
-  const [expanded, setExpanded] = useGlobalState(props.uid, 'nodes', []);
-  return <StyledTreeView
-    expanded={expanded}
-    onNodeToggle={(e, ids) => setExpanded(ids)}
-    defaultCollapseIcon={<ExpandMoreIcon />}
-    defaultExpandIcon={<ChevronRightIcon />}
-  >
-    <TreeItem nodeId="1" label={"Applications" + count} onClick={() => setCount(count + 1)}>
-      <TreeItem nodeId="2" label="Calendar" />
-      <TreeItem nodeId="3" label="Chrome" />
-      <TreeItem nodeId="4" label="Webstorm" />
-    </TreeItem>
-    <TreeItem nodeId="5" label="Documents">
-      <TreeItem nodeId="6" label="Material-UI">
-        <TreeItem nodeId="7" label="src">
-          <TreeItem nodeId="8" label="index.js" />
-          <TreeItem nodeId="9" label="tree-view.js" />
-        </TreeItem>
-      </TreeItem>
-    </TreeItem>
-  </StyledTreeView>;
-}
+export function App() {
+  const [ currentLayout, setCurrentLayout ] = useState(defaultLayout);
+  globalContext.setCurrentLayout = setCurrentLayout as any;
+  return <div style={containerStyle}>
+    <MainMenu />
+    <MainLayoutComponent config={currentLayout} components={layoutComponents}
+      style={dockStyle} onInit={layout => globalContext.layout = layout} />
+  </div>;
+};
