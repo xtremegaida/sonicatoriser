@@ -1,9 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import 'golden-layout/lib/jquery';
 import GoldenLayout from 'golden-layout';
 import { registerLayoutReactShim } from '../layout/layout-components';
-import 'golden-layout/src/css/goldenlayout-base.css';
-import 'golden-layout/src/css/goldenlayout-light-theme.css';
 
 export function MainLayoutComponent(props: MainLayoutComponentProps) {
 
@@ -24,7 +21,7 @@ export function MainLayoutComponent(props: MainLayoutComponentProps) {
       layout.destroy();
     };
 // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.config, props.components]);
+  }, [props.config, props.components, container.current]);
 
   return <div style={props.style} ref={container} />;
 }

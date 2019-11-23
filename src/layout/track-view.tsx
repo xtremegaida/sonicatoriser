@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { LayoutComponentPropsBase } from '../types';
+import { SynthTrack } from '../synth/types';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: 216,
-    flexGrow: 1,
-    maxWidth: 400,
-  },
-}));
-
-export interface TrackViewComponentProps extends LayoutComponentPropsBase {
-  selectedTrackIndex: number;
+export interface TrackViewComponentProps {
+  track: SynthTrack;
 }
 
 export function TrackViewComponent (props: TrackViewComponentProps) {
-  const classes = useStyles();
-  
-  return <div>f {props.selectedTrackIndex}</div>;
+  return <div>f {props.track.uid}</div>;
 }

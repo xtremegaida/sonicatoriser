@@ -1,0 +1,4 @@
+.lm_header { height: 30px; }
+.lm_header .lm_tab { height: 24px; font-size: 16px; }
+.lm_header .lm_tab .lm_title { padding-top: 5px; color: black; }
+.lm_header .lm_tab .lm_close_tab { top: 8px; }

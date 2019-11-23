@@ -2,11 +2,15 @@ import GoldenLayout from 'golden-layout';
 import { defaultLayout, getLayoutUid, setLayoutUid, createLayoutComponent } from './layout/layout-components';
 import { SynthContext } from './synth/synth';
 import { SynthContextEditor } from './synth/synthEdit';
+import { SynthObject } from './synth/types';
+import { SimpleTypedEvent } from './synth/simple-event';
 
 class GlobalContext {
   layout: GoldenLayout | null = null;
   setCurrentLayout: ((config: GoldenLayout.Config) => void) | null = null;
   globalState: any = {};
+  readonly onFocus = new SimpleTypedEvent<number>();
+  readonly onDeleteConfirm = new SimpleTypedEvent<SynthObject>();
 
   readonly synthEdit = new SynthContextEditor();
   synth = new SynthContext();
@@ -58,11 +62,18 @@ class GlobalContext {
 
   }
 
-  showTrackView(index: number) {
-    if (!this.layout) { return; }
-    const track = (this.synth.data.tracks[index] && this.synth.data.tracks[index].name) || ('Track ' + (index + 1));
-    const layoutItem = createLayoutComponent(track, 'trackView', { selectedTrackIndex: index });
+  showObjectView(obj: SynthObject) {
+    if (!this.layout || !this.synth) { return; }
+    const layoutItem = createLayoutComponent('(' + obj.uid + ')', 'view', { selectedUid: obj.uid });
     this.layout.root.getItemsById('mainContainer')[0].addChild(layoutItem);
+  }
+
+  deleteObject(obj: SynthObject, confirm?: boolean) {
+    if (confirm) {
+      this.synthEdit.delete(obj);
+    } else {
+      this.onDeleteConfirm.trigger(obj);
+    }
   }
 
   get(key: string, defaultValue?: any) {

@@ -1,10 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'golden-layout/lib/jquery';
 import GoldenLayout from 'golden-layout';
 import { LayoutComponentPropsBase } from '../types';
 
 import { LayoutProjectOutlineComponent } from './project-outline';
-import { TrackViewComponent } from './track-view';
+import { SynthObjectViewComponent } from './object-view';
+import { MetadataViewComponent } from './metadata-view';
+
+import 'golden-layout/src/css/goldenlayout-base.css';
+import 'golden-layout/src/css/goldenlayout-light-theme.css';
+import './layout-components.css';
 
 var layoutUid = 0;
 
@@ -13,7 +19,8 @@ export const setLayoutUid = (uid: number) => layoutUid = uid;
 
 export const layoutComponents = {
   'outline': LayoutProjectOutlineComponent,
-  'trackView': TrackViewComponent,
+  'view': SynthObjectViewComponent,
+  'metadata': MetadataViewComponent,
 };
 
 export const createLayoutComponent = (title: string, component: any, props?: any, isCloseable?: boolean) => ({
@@ -31,6 +38,9 @@ export const defaultLayout = {
   settings: {
     showPopoutIcon: false
   },
+  dimensions: {
+    headerHeight: 30
+  },
   content: [{
     type: 'row',
     content:[{
@@ -38,12 +48,17 @@ export const defaultLayout = {
       id: 'mainContainer',
       width: 75,
       isClosable: false,
-      content:[]
+      content: []
     }, {
-      type: 'stack',
-      id: 'toolboxContainer',
-      isClosable: false,
-      content:[createLayoutComponent('Project Outline', 'outline', null, false)]
+      type: 'column',
+      content: [{
+        type: 'stack',
+        id: 'toolboxContainer',
+        height: 75,
+        isClosable: false,
+        content: [createLayoutComponent('Project Outline', 'outline', null, false)]
+      },
+      createLayoutComponent('Metadata', 'metadata', null, false)]
     }]
   }]
 };
