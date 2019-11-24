@@ -13,7 +13,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 
 import { useGlobalState } from '../hooks/global-context-state';
 import globalContext from '../global-context';
@@ -76,9 +75,6 @@ export function LayoutProjectOutlineComponent (props: LayoutComponentPropsBase) 
         (menu.selected ? [
           <MenuItem key="10" onClick={() => { globalContext.showObjectView(menu.selected); closeMenu(); }}>
             <ListAltIcon /><span className={classes.spacing}>View Track</span>
-          </MenuItem>,
-          <MenuItem key="11" onClick={() => { globalContext.onFocus.trigger(menu.selected.uid); closeMenu(); }}>
-            <EditIcon /><span className={classes.spacing}>Edit Track Metadata</span>
           </MenuItem>,
           <MenuItem key="12" onClick={() => { globalContext.deleteObject(menu.selected); closeMenu(); }}>
             <DeleteIcon /><span className={classes.spacing}>Delete Track</span>

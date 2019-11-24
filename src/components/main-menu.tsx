@@ -23,7 +23,6 @@ export function MainMenu () {
         Sonicatoriser
       </Typography>
       <MenuButton name="File" items={[
-        //TODO: add confirm dialog
         { name: <span><CreateIcon className={classes.spacing} /> New</span>, onClick: () => globalContext.fileNew() },
         { divider: true },
         { name: <span><FolderOpenIcon className={classes.spacing} /> Quick Load</span>, onClick: () => globalContext.fileQuickLoad() },

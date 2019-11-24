@@ -19,6 +19,8 @@
     "golden-layout": "^1.5.9",
     "jszip": "^3.2.2",
     "react": "^16.12.0",
+    "react-dnd": "^9.4.0",
+    "react-dnd-html5-backend": "^9.4.0",
     "react-dom": "^16.12.0",
     "react-resize-detector": "^4.2.1",
     "react-scripts": "3.2.0",

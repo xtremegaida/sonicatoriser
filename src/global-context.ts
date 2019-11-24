@@ -4,18 +4,28 @@ import { SynthContext } from './synth/synth';
 import { SynthContextEditor } from './synth/synthEdit';
 import { SynthObject } from './synth/types';
 import { SimpleTypedEvent } from './synth/simple-event';
+import { showConfirmDialog } from './components/confirm-dialog';
 
 class GlobalContext {
   layout: GoldenLayout | null = null;
   setCurrentLayout: ((config: GoldenLayout.Config) => void) | null = null;
   globalState: any = {};
   readonly onFocus = new SimpleTypedEvent<number>();
-  readonly onDeleteConfirm = new SimpleTypedEvent<SynthObject>();
 
   readonly synthEdit = new SynthContextEditor();
   synth = new SynthContext();
 
-  constructor() { this.fileNew(); }
+  constructor() { this.init(); }
+
+  private init() {
+    setLayoutUid(0);
+    this.globalState = {};
+    this.synth = new SynthContext();
+    if (this.setCurrentLayout) {
+      this.setCurrentLayout({...defaultLayout});
+    }
+    this.synthEdit.setSynthContext(this.synth);
+  }
   
   serialize() {
     var saveData: any = { uidSeq: getLayoutUid() };
@@ -36,13 +46,8 @@ class GlobalContext {
   }
 
   fileNew() {
-    setLayoutUid(0);
-    this.globalState = {};
-    this.synth = new SynthContext();
-    if (this.setCurrentLayout) {
-      this.setCurrentLayout({...defaultLayout});
-    }
-    this.synthEdit.setSynthContext(this.synth);
+    showConfirmDialog('Create New', 'Create new project?')
+      .then(() => this.init());
   }
 
   fileQuickLoad() {
@@ -72,7 +77,8 @@ class GlobalContext {
     if (confirm) {
       this.synthEdit.delete(obj);
     } else {
-      this.onDeleteConfirm.trigger(obj);
+      showConfirmDialog('Delete Object', 'Permanently delete object?')
+        .then(() => this.synthEdit.delete(obj));
     }
   }
 

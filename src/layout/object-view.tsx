@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import { LayoutComponentPropsBase } from '../types';
 import { TrackViewComponent } from './track-view';
@@ -27,7 +29,9 @@ export function SynthObjectViewComponent (props: SynthObjectViewComponentProps) 
       case 'track':
         title = 'Track: ' + ((obj as SynthTrack).name || '') + ' (' + obj.uid + ')';
         if (props.glContainer.title !== title) { props.glContainer.setTitle(title); }
-        return <TrackViewComponent track={obj as SynthTrack} />;
+        return <DndProvider backend={HTML5Backend}>
+          <TrackViewComponent layoutUid={props.uid} track={obj as SynthTrack} />
+        </DndProvider>;
       default:
         return <div>No supported viewer for object type: {obj.type}.</div>;
     }

@@ -23,11 +23,11 @@ export class SynthContextEditor {
     obj = {...obj, uid: ++this.synth.data.uidSequence };
     const newParent = {...parent};
     (newParent as any)[key] = [...(parent as any)[key], obj];
-    this.changed(newParent, true);
+    this.changed(newParent);
     return obj;
   }
 
-  changed(obj: SynthObject | SynthData, invalidateUidCache?: boolean) {
+  changed(obj: SynthObject | SynthData) {
     if (!this.synth) { return; }
     obj = {...obj};
     while ('uid' in obj) {
@@ -39,7 +39,7 @@ export class SynthContextEditor {
       (obj as any)[parent.key] = array;
     }
     this.synth.data = obj as SynthData;
-    if (invalidateUidCache) { this.synth.invalidateUidCache(); }
+    this.synth.invalidateUidCache();
     this.onChange.trigger();
     return obj;
   }
@@ -52,7 +52,7 @@ export class SynthContextEditor {
       array.splice(parent.index, 1);
       const newParent = {...parent.parent};
       (newParent as any)[parent.key] = array;
-      this.changed(newParent, true);
+      this.changed(newParent);
     }
   }
 }

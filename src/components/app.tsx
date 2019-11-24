@@ -3,7 +3,7 @@ import { MainMenu } from './main-menu';
 import { MainLayoutComponent } from './main-layout';
 import globalContext from '../global-context';
 import { layoutComponents, defaultLayout } from '../layout/layout-components';
-import { DeleteConfirmDialog } from './delete-confirm-dialog';
+import { ConfirmDialog } from './confirm-dialog';
 
 const containerStyle: any = {
   position: 'fixed',
@@ -34,6 +34,6 @@ export function App() {
     <MainMenu />
     <MainLayoutComponent config={currentLayout} components={layoutComponents}
       style={dockStyle} onInit={layout => globalContext.layout = layout} />
-    <DeleteConfirmDialog />
+    <ConfirmDialog />
   </div>;
 };

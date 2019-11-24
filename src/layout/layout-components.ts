@@ -23,16 +23,20 @@ export const layoutComponents = {
   'metadata': MetadataViewComponent,
 };
 
-export const createLayoutComponent = (title: string, component: any, props?: any, isCloseable?: boolean) => ({
-  type: 'component',
-  title: title,
-  isClosable: isCloseable,
-  componentName: 'reactshim',
-  componentState: {
-    component: component,
-    props: { ...props, uid: component + '[' + (layoutUid++) + ']' } as LayoutComponentPropsBase
-  }
-});
+export const createLayoutComponent = (title: string, component: any, props?: any, isClosable?: boolean) => {
+  const uid = component + '[' + (layoutUid++) + ']';
+  return {
+    type: 'component',
+    id: uid,
+    title,
+    isClosable,
+    componentName: 'reactshim',
+    componentState: {
+      component,
+      props: { ...props, uid } as LayoutComponentPropsBase
+    }
+  };
+};
 
 export const defaultLayout = {
   settings: {
