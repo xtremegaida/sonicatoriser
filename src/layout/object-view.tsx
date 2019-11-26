@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import { LayoutComponentPropsBase } from '../types';
-import { TrackViewComponent } from './track-view';
+import { TrackViewComponent } from './track-view/track-view';
 import { SynthTrack } from './../synth/types';
 import globalContext from '../global-context';
 
