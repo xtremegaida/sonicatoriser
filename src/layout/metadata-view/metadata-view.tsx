@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { LayoutComponentPropsBase } from '../types';
-import { useGlobalState } from '../hooks/global-context-state';
-import globalContext from '../global-context';
+import { LayoutComponentPropsBase } from '../../types';
+import { useGlobalState } from '../../hooks/global-context-state';
+import globalContext from '../../global-context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
 import DeleteIcon from '@material-ui/icons/Delete';
+import { MetadataViewTrack } from './metadata-view-track';
 
 const useStyles = makeStyles(theme => ({
   inputField: {
@@ -50,12 +50,7 @@ export function MetadataViewComponent (props: LayoutComponentPropsBase) {
           <Button onClick={() => globalContext.deleteObject(obj)} color="primary"><DeleteIcon/></Button>
         </span>
       </div>
-      {obj.type === 'track' ? ([
-        <div key="1">
-          <TextField label="Name" onBlur={onChanged} value={objEdit.name || ''}
-            onChange={e => setObjEdit({...objEdit, name: e.target.value})} className={classes.inputField} />
-        </div>
-      ]) : null}
+      {obj.type === 'track' ? <MetadataViewTrack objEdit={objEdit} onObjEditChanged={setObjEdit} onFinishChanges={onChanged} /> : null}
     </div>;
   }
 }

@@ -4,10 +4,13 @@ import ResizeDetector from 'react-resize-detector';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { SynthTrack } from '../../synth/types';
 import { useGlobalState } from '../../hooks/global-context-state';
 import { SimpleTypedEvent, SimpleOnceOffEvent } from '../../synth/simple-event';
+import globalContext from '../../global-context';
 
 import { trackViewConsts } from './track-view-consts';
 import { TrackLinkButton } from './track-link-button';
@@ -25,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     padding: '5px',
     height: trackViewConsts.toolbarHeight + 'px',
     width: '100%'
+  },
+  spaceLeft: {
+    marginLeft: '5px'
   }
 }));
 
@@ -102,9 +108,10 @@ export function TrackViewComponent (props: TrackViewComponentProps) {
       <div className={classes.outer} ref={dropRef}>
         <div className={classes.toolbar}>
           {scrollLinked ? 
-            <Button variant="outlined" onClick={() => setScrollLinked(null)}>Unlink</Button> :
+            <Button variant="outlined" onClick={() => setScrollLinked(null)}><LinkOffIcon /></Button> :
             <TrackLinkButton layoutUid={props.layoutUid} onLink={setScrollLinked} />
           }
+          <Button className={classes.spaceLeft} variant="outlined" onClick={() => globalContext.editObject(props.track)}><EditIcon /></Button>
         </div>
         <TrackNoteValues
           scrollX={scrollX}

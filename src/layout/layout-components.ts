@@ -6,7 +6,7 @@ import { LayoutComponentPropsBase } from '../types';
 
 import { LayoutProjectOutlineComponent } from './project-outline';
 import { SynthObjectViewComponent } from './object-view';
-import { MetadataViewComponent } from './metadata-view';
+import { MetadataViewComponent } from './metadata-view/metadata-view';
 
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-light-theme.css';

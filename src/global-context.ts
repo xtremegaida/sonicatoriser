@@ -11,7 +11,8 @@ class GlobalContext {
   setCurrentLayout: ((config: GoldenLayout.Config) => void) | null = null;
   globalState: any = {};
   readonly onFocus = new SimpleTypedEvent<number>();
-
+  readonly onEdit = new SimpleTypedEvent<number>();
+  
   readonly synthEdit = new SynthContextEditor();
   synth = new SynthContext();
 
@@ -73,11 +74,16 @@ class GlobalContext {
     this.layout.root.getItemsById('mainContainer')[0].addChild(layoutItem);
   }
 
+  editObject(obj: SynthObject) {
+    this.onEdit.trigger(obj.uid);
+  }
+
   deleteObject(obj: SynthObject, confirm?: boolean) {
     if (confirm) {
       this.synthEdit.delete(obj);
+      return Promise.resolve();
     } else {
-      showConfirmDialog('Delete Object', 'Permanently delete object?')
+      return showConfirmDialog('Delete Object', 'Permanently delete object?')
         .then(() => this.synthEdit.delete(obj));
     }
   }

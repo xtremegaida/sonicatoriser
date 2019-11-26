@@ -3,6 +3,7 @@ import { MainMenu } from './main-menu';
 import { MainLayoutComponent } from './main-layout';
 import globalContext from '../global-context';
 import { layoutComponents, defaultLayout } from '../layout/layout-components';
+import { MetadataPopup } from '../layout/metadata-view/metadata-popup';
 import { ConfirmDialog } from './confirm-dialog';
 
 const containerStyle: any = {
@@ -34,6 +35,7 @@ export function App() {
     <MainMenu />
     <MainLayoutComponent config={currentLayout} components={layoutComponents}
       style={dockStyle} onInit={layout => globalContext.layout = layout} />
+    <MetadataPopup />
     <ConfirmDialog />
   </div>;
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import Button from '@material-ui/core/Button';
+import LinkIcon from '@material-ui/icons/Link';
 
 import { showMessageDialog } from '../../components/confirm-dialog';
 
@@ -18,6 +19,6 @@ export function TrackLinkButton(props: {
   });
   return <Button variant="outlined" ref={dragRef}
     onClick={() => showMessageDialog('Link Scroll', 'Drag and drop this button on another track window to link the vertical scroll bars.')}>
-    Link
+    <LinkIcon />
   </Button>;
 }

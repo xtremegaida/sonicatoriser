@@ -10,6 +10,7 @@ export interface SynthObject {
 
 export interface SynthTrack extends SynthObject {
   name?: string;
+  
   content: SynthObject[];
 }
 
