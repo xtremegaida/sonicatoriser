@@ -47,12 +47,6 @@ export interface TrackViewComponentProps {
   track: SynthTrack;
 }
 
-const defaultNotePattern = [ 1,0,1,0, 1,1,0,1, 0,1,0,1 ];
-const defaultNoteNames = [ 'C','C#','D','D#', 'E','F','F#','G', 'G#','A','A#','B' ];
-const defaultNoteWidth = 20;
-const defaultNoteHeight = 40;
-const defaultTimeDivisions = 4;
-
 export function TrackViewComponent (props: TrackViewComponentProps) {
   const classes = useStyles();
   
@@ -61,10 +55,9 @@ export function TrackViewComponent (props: TrackViewComponentProps) {
   const [scrollY, setScrollY] = useGlobalState(props.layoutUid, 'scrollY', 0);
   const [scrollLinked, setScrollLinked] = useGlobalState(props.layoutUid, 'linked', null as string | null);
 
-  const [notePattern, setNotePattern] = useGlobalState(props.layoutUid, 'pattern', defaultNotePattern);
-  const [noteWidth, setNoteWidth] = useGlobalState(props.layoutUid, 'width', defaultNoteWidth);
-  const [noteHeight, setNoteHeight] = useGlobalState(props.layoutUid, 'height', defaultNoteHeight);
-  const [timeDivisions, setTimeDivisions] = useGlobalState(props.layoutUid, 'divisions', defaultTimeDivisions);
+  const [notePattern, setNotePattern] = useGlobalState(props.layoutUid, 'pattern', trackViewConsts.defaultNotePattern);
+  const [noteLength, setNoteLength] = useState(trackViewConsts.defaultNoteLength);
+  const [notesPerDivision, setNotesPerDivision] = useState(trackViewConsts.defaultNotesPerTimeDivision);
   const [trackMaxNotes, setTrackMaxNotes] = useState(4000);
 
   const [, dropRef] = useDrop({
@@ -100,7 +93,14 @@ export function TrackViewComponent (props: TrackViewComponentProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollLinked, onScrollYEvent, setScrollY]);
 
-  const quantizedTrackHeight = (trackMaxNotes * noteHeight + 1) + 'px';
+  if ((props.track.notesPerDivision || trackViewConsts.defaultNotesPerTimeDivision) !== notesPerDivision) {
+    setNotesPerDivision(props.track.notesPerDivision || trackViewConsts.defaultNotesPerTimeDivision);
+  }
+  if ((props.track.noteLength || trackViewConsts.defaultNoteLength) !== noteLength) {
+    setNoteLength(props.track.noteLength || trackViewConsts.defaultNoteLength);
+  }
+
+  const quantizedTrackHeight = (trackMaxNotes * noteLength * trackViewConsts.noteHeight + 1) + 'px';
 
   return <ResizeDetector
     handleHeight
@@ -111,23 +111,24 @@ export function TrackViewComponent (props: TrackViewComponentProps) {
             <Button variant="outlined" onClick={() => setScrollLinked(null)}><LinkOffIcon /></Button> :
             <TrackLinkButton layoutUid={props.layoutUid} onLink={setScrollLinked} />
           }
-          <Button className={classes.spaceLeft} variant="outlined" onClick={() => globalContext.editObject(props.track)}><EditIcon /></Button>
+          <Button className={classes.spaceLeft} variant="outlined"
+            onClick={() => globalContext.editObject(props.track)}><EditIcon /></Button>
         </div>
         <TrackNoteValues
           scrollX={scrollX}
-          noteWidth={noteWidth}
+          noteWidth={trackViewConsts.noteWidth}
           notePattern={notePattern} />
         <TrackTimeDivisions
           scrollY={scrollY}
           height={height}
-          timeDivisionHeight={timeDivisions * noteHeight}
+          timeDivisionHeight={notesPerDivision * noteLength * trackViewConsts.noteHeight}
           quantizedTrackHeight={quantizedTrackHeight} />
         <TrackNoteView
           scrollX={scrollX}
           scrollY={scrollY}
           height={height}
-          noteWidth={noteWidth}
-          noteHeight={noteHeight}
+          noteWidth={trackViewConsts.noteWidth}
+          noteHeight={trackViewConsts.noteHeight * noteLength}
           notePattern={notePattern}
           quantizedTrackHeight={quantizedTrackHeight}
           onScroll={(x, y) => { setScrollX(x); setScrollY(y); }} />

@@ -24,5 +24,16 @@ body {
  -webkit-user-select: none;
 }
 
-::selection { background: transparent;color:inherit; }
-::-moz-selection { background: transparent;color:inherit; }
+::selection { background: transparent; color:inherit; }
+::-moz-selection { background: transparent; color:inherit; }
+
+.selectable {
+  user-select: text;
+ -khtml-user-select: text;
+ -o-user-select: text;
+ -moz-user-select: -moz-text;
+ -webkit-user-select: text;
+}
+
+.selectable::selection { background: #ccc; color: initial; }
+.selectable::-moz-selection { background: #ccc; color: initial; }

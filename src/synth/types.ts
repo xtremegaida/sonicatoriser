@@ -10,7 +10,10 @@ export interface SynthObject {
 
 export interface SynthTrack extends SynthObject {
   name?: string;
-  
+  notesPerDivision?: number;
+  noteLength?: number;
+  notePattern?: number[];
+  noteNames?: string[];
   content: SynthObject[];
 }
 

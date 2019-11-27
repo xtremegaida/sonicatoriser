@@ -1,5 +1,14 @@
 import { SynthData, SynthObject } from "./types";
 
+const parentContainers = ['tracks'];
+const childContainers = ['content', 'sequence'];
+
+interface SynthParentInfo {
+  parent: SynthObject | SynthData;
+  key: string;
+  index: number;
+}
+
 export class SynthContext {
   data: SynthData;
   private uidCache: { [uid: number]: SynthObject } | null = null;
@@ -30,24 +39,20 @@ export class SynthContext {
     if (!this.uidCache || !this.uidParentCache) {
       this.uidCache = {};
       this.uidParentCache = {};
-      if (this.data.tracks) {
-        for (var i = this.data.tracks.length - 1; i >= 0; i--) {
-          addUidCacheNode(this.uidCache, this.data.tracks[i],
-            this.uidParentCache, this.data, 'tracks', i);
+      for (var j = 0; j < parentContainers.length; j++) {
+        const containerKey = parentContainers[j];
+        const container = (this.data as any)[containerKey];
+        if (container) {
+          for (var i = container.length - 1; i >= 0; i--) {
+            addUidCacheNode(this.uidCache, container[i],
+              this.uidParentCache, this.data, containerKey, i);
+          }
         }
       }
     }
     return this.uidCache;
   }
 }
-
-interface SynthParentInfo {
-  parent: SynthObject | SynthData;
-  key: string;
-  index: number;
-}
-
-const childContainers = ['content', 'sequence'];
 
 function addUidCacheNode(cache: { [uid: number]: SynthObject }, obj: SynthObject,
   parentCache: { [uid: number]: SynthParentInfo }, parent: SynthObject | SynthData, parentKey: string, parentIndex: number) {
